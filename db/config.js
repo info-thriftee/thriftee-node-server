@@ -4,7 +4,8 @@ module.exports = config = {
     port: '3306',
     database: "thriftee-db",
     user: "thriftee",
-    password: "thrifteeZC32B5"
+    password: "thrifteeZC32B5",
+    socketPath: "/cloudsql/lunar-prism-349501:asia-east1:thriftee-master"
   },
   port: 3000,
 }
