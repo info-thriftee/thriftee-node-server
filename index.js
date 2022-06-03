@@ -14,7 +14,7 @@ const server = http.createServer(app);
 //   }
 // })
 
-const port = 3001;
+const port = 8080;
 
 const initRoutes = require('./api/routes');
 const initEvents = require('./events/events');
@@ -75,8 +75,8 @@ server.listen(port, () => {
 //   startJobs()
 // })
 
-// app.get('/', (req, res) => {
-//     res.json("Server is running..");
-// })
+app.get('/', (req, res) => {
+    res.json("Server is running..");
+})
 
 initRoutes(app)
