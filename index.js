@@ -37,7 +37,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   }
 })
-
+var activeBidder = 0;
 io.on("connection", (socket) => {
   console.log("User Connected.", socket.id);
 
@@ -52,7 +52,15 @@ io.on("connection", (socket) => {
 
   socket.on("join_bidding", (data) => {
     socket.join(data);
+    activeBidder = io.sockets.adapter.rooms.get(data).size;
+    io.sockets.to(data).emit('increase_bidders', activeBidder);
     console.log(`User with ID: ${socket.id} joined bidding room: ${data}`);
+  })
+
+  socket.on("exit_bidding", (data) => {
+    socket.to(data.room).emit("decrease_bidders", Number(activeBidder - 1));
+    console.log(`User with ID: ${socket.id} exit bidding room: ${data.room}`);
+    socket.leave(data.room);
   })
 
   socket.on("bid", (data) => {
@@ -76,7 +84,7 @@ server.listen(port, () => {
 // })
 
 app.get('/', (req, res) => {
-    res.json("Server is running..");
+  res.json("Server is running..");
 })
 
 initRoutes(app)
