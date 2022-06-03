@@ -83,7 +83,7 @@ async function checkActiveBiddings() {
   let current_time = new Date();
 
   for(let item of biddings) {
-    let end_time = moment(item.start_time).toDate();
+    let end_time = moment(item.end_time).toDate();
     
     console.log("UPDATE ACTIVE BIDDING");
     console.log("Current time", current_time);
