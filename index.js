@@ -43,11 +43,21 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", (data) => {
     socket.join(data);
-    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+    console.log(`User with ID: ${socket.id} joined chat room: ${data}`);
   })
 
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
+  })
+
+  socket.on("join_bidding", (data) => {
+    socket.join(data);
+    console.log(`User with ID: ${socket.id} joined bidding room: ${data}`);
+  })
+
+  socket.on("bid", (data) => {
+    console.log("Bid Successfully!");
+    socket.to(data.bidding_room).emit("update_bidding", data);
   })
 
   io.on("disconnect", () => {
@@ -56,8 +66,8 @@ io.on("connection", (socket) => {
 })
 
 server.listen(port, () => {
-    console.log("Server is running in http://localhost:" + port);
-    startJobs()
+  console.log("Server is running in http://localhost:" + port);
+  startJobs()
 })
 
 // app.listen(port, () => {
@@ -65,8 +75,8 @@ server.listen(port, () => {
 //   startJobs()
 // })
 
-app.get('/', (req, res) => {
-  res.json("Server is running..");
-})
+// app.get('/', (req, res) => {
+//     res.json("Server is running..");
+// })
 
 initRoutes(app)

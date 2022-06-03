@@ -7,44 +7,37 @@ const qb = new Querybuilder('mysql');
 module.exports = initStore = (router) => {
   router.get(baseUri + '/list', async (req, res) => {
 
-    let sql = qb
-    .select()
-    .fields("store_name as name")
-    .from("stores")
-    .limit(0)
-    .order({
-      store_name: 1
-    })
-    .call();
+    try {
 
-    let result = db.query(sql);
-    
-    res.json(result);
+      let sql = qb.select()
+        .fields("store_name as name")
+        .table("stores")
+        .limit(0)
+        .order({
+          store_name: 1
+        })
+        .call()
 
-    // db.query(sql, (err, result) => {
-    //   if(err){
-    //       console.log(err);
-    //       res.sendStatus(500);
-    //   }
-    //   else{
-    //     res.json(result);
-    //   }
-    // });
+      let result = await db(sql);
+      
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
   });
 
   router.get(baseUri + '/all', async (req, res) => {
 
     let sql = "SELECT stores.store_name, stores.uuid, stores.store_id, Count(DISTINCT ratings.uuid) as rating_count, Count(DISTINCT products.uuid) as count, AVG(ratings.rate) as rating FROM stores LEFT JOIN ratings ON stores.uuid = ratings.store LEFT JOIN products ON  products.store = stores.uuid WHERE stores.status = 1 GROUP BY stores.uuid ORDER BY stores.store_name"
 
-    db.query(sql, (err, result) => {
-      if(err){
-          console.log(err);
-          res.sendStatus(500);
-      }
-      else{
-        res.json(result);
-      }
-    });
+    try {
+      let result = await db(sql);
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
   });
 
   /*
@@ -69,7 +62,7 @@ module.exports = initStore = (router) => {
   router.post(baseUri + '/products', async (req, res) => {
 
     let sql = qb
-      .from("products")
+      .table("products")
       .where({
         store: req.body.store
       })
@@ -98,7 +91,7 @@ module.exports = initStore = (router) => {
       .update({
         store_name: req.body.store_name
       })
-      .from("stores")
+      .table("stores")
       .where({
         uuid: req.body.uuid
       })

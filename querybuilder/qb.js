@@ -105,7 +105,7 @@ QueryBuilder.prototype.fields = function (columns) {
   return this;
 };
 
-QueryBuilder.prototype.from = function (table) {
+QueryBuilder.prototype.table = function (table) {
 
   this._table = table;
 
