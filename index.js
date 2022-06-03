@@ -14,7 +14,7 @@ const server = http.createServer(app);
 //   }
 // })
 
-const port = 3000;
+const port = 3001;
 
 const initRoutes = require('./api/routes');
 const initEvents = require('./events/events');
