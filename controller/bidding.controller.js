@@ -1,13 +1,16 @@
-const db = require("../db/connection");
-const baseUri = "/api/bidding";
-const moment = require('moment');
-
 const Querybuilder = require('../querybuilder/qb');
 const tableName = "biddings";
 const qb = new Querybuilder('mysql').table(tableName);
 
+const moment = require('moment');
+
+
+/**
+ * Functions
+*/
+
 export const update = async (bidding, changes) => {
-  let result = await qb.update().set(changes).call();
+  let result = await qb.update().where({bidding: bidding}).set(changes).call();
   return result;
 }
 

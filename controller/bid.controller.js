@@ -1,9 +1,11 @@
-const db = require("../db/connection");
 const Querybuilder = require('../querybuilder/qb');
-const qb = new Querybuilder('mysql');
-const baseUri = "/api/bid";
 const tableName = "bids";
+const qb = new Querybuilder('mysql').table(tableName);
 
+
+/**
+ * Functions
+*/
 
 export const getBid = async (uuid) => {
   let res = qb.select().where({uuid: uuid}).call();
@@ -40,4 +42,18 @@ export const getTotalBids = async (bidding) => {
     return res ? res[0].count : null;
 }
 
-export const 
+export const getAllBidsOfCustomer = async (customer) => {
+  let res = qb.select()
+    .fields(['bids.*'])
+    .leftJoin(['biddings', 'bids.bidding', 'biddings.uuid'])
+    .where({customer: customer})
+    .order({date: "DESC"})
+    .group(["bidding"])
+    .call();
+
+    let bids = [];
+    
+    for(bid of res) {
+      let bidding = Bidd
+    }
+}

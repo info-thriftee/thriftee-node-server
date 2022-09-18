@@ -143,6 +143,13 @@ QueryBuilder.prototype.leftJoin = function (join) {
   return this;
 };
 
+QueryBuilder.prototype.group = function (group) {
+
+  this._group = group;
+
+  return this;
+};
+
 QueryBuilder.prototype.limit = function (limit) {
 
   this._limit = limit;
