@@ -9,7 +9,6 @@ const BiddingController = require('../controller/bidding.controller');
 
 module.exports = initBid = (app) => {
 
-
   //Adding 
   app.post(baseUri + '/add', async (request, res) => {
 

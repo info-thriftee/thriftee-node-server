@@ -32,3 +32,12 @@ export const getHighestBid = async (bidding) => {
   
   return res ? res[0] : null;
 }
+
+export const getTotalBids = async (bidding) => {
+  let res = qb.count()
+    .where({bidding: bidding})
+    .call();
+    return res ? res[0].count : null;
+}
+
+export const 
