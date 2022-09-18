@@ -7,8 +7,13 @@ const qb = new Querybuilder('mysql');
  * Functions
 */
 
-export const getItem = (tableName, uuid) => {
-  let res = qb.select().table(tableName).where({uuid: uuid}).call();
+export const getCollection = (tableName, condition) => {
+  let res = qb.select().table(tableName).where(condition).call();
+  return res ? res[0] : null;
+}
+
+export const getItem = (tableName, condition) => {
+  let res = qb.select().table(tableName).where(condition).call();
   return res ? res[0] : null;
 }
 
@@ -27,7 +32,7 @@ export const updateItem = (tableName, changes) => {
   return res;
 }
 
-export const deleteItem = (tableName, uuid) => {
-  let res = qb.delete().table(tableName).where({uuid: uuid}).call();
+export const deleteItem = (tableName, condition) => {
+  let res = qb.delete().table(tableName).where(condition).call();
   return res;
 }
