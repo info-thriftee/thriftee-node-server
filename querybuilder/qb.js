@@ -10,6 +10,7 @@
 
 const QueryBuilder = function (methodName) {
 
+  this._raw = '';
   this._queryType = 'select';
   this._fields = '*';
   this._table = null;
@@ -27,6 +28,11 @@ const QueryBuilder = function (methodName) {
   this.processor = null;
 
   this._loadMethod(methodName);
+};
+
+QueryBuilder.prototype.raw = async function (query) {
+  var result = await db(query);
+  return result;
 };
 
 QueryBuilder.prototype.select = function (clause) {
@@ -87,15 +93,21 @@ QueryBuilder.prototype.insert = function (clause) {
 QueryBuilder.prototype.call = async function () {
 
   var query = this.processor.query(this);
-
-  // if (typeof this._handler == 'function') {
-  //   this._handler(query, callback);
-  // } else {
-  //   return query;
-  // }
-
   var result = await db(query);
   return result;
+};
+
+QueryBuilder.prototype.first = async function () {
+
+  var query = this.processor.query(this);
+  var result = await db(query);
+
+  if(result && result.length > 0) {
+    return result[0];
+  }
+  else {
+    return null;
+  }
 };
 
 QueryBuilder.prototype.set = function (object) {

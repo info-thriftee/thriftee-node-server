@@ -5,7 +5,7 @@ class Router {
   }
 
   get (route, callback) {
-    this.app.get(route, async (request, res) => {
+    this.app.get("/api" + route, async (request, res) => {
       try {
         let result = await callback();
         res.json({
@@ -23,7 +23,7 @@ class Router {
   }
 
   post (route, callback) {
-    this.app.post(route, async (request, res) => {
+    this.app.post("/api" + route, async (request, res) => {
       try {
 
         let result = await callback(request.body);
