@@ -37,7 +37,9 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   }
 })
+
 var activeBidder = 0;
+
 io.on("connection", (socket) => {
   console.log("User Connected.", socket.id);
 
@@ -75,6 +77,8 @@ io.on("connection", (socket) => {
 
 server.listen(port, () => {
   console.log("Server is running in http://localhost:" + port);
+
+  //Init Cron Jobs
   startJobs()
 })
 

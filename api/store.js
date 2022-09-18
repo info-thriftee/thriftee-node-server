@@ -1,4 +1,3 @@
-const db = require("../db/connection");
 const baseUri = "/api/store";
 
 const Querybuilder = require('../querybuilder/qb');
@@ -6,10 +5,9 @@ const qb = new Querybuilder('mysql');
 
 module.exports = initStore = (router) => {
   router.get(baseUri + '/list', async (req, res) => {
-
     try {
 
-      let sql = qb.select()
+      let result = await qb.select()
         .fields("store_name as name")
         .table("stores")
         .limit(0)
@@ -18,11 +16,10 @@ module.exports = initStore = (router) => {
         })
         .call()
 
-      let result = await db(sql);
-      
       res.json(result);
+
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res.sendStatus(500);
     }
   });

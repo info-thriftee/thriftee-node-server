@@ -1,11 +1,14 @@
 /**
  * @author: Marc Riegel <mail@marclab.de>
+ * @update_by: Emerson Dalwampo <dalwampoemersons@gmail.com>
  * Date: 02.03.13
  * Time: 18:32
  *
  */
 
- const QueryBuilder = function (methodName) {
+ const db = require("../db/connection");
+
+const QueryBuilder = function (methodName) {
 
   this._queryType = 'select';
   this._fields = '*';
@@ -79,16 +82,18 @@ QueryBuilder.prototype.insert = function (clause) {
   return this;
 };
 
-QueryBuilder.prototype.call = function (callback) {
+QueryBuilder.prototype.call = async function () {
 
   var query = this.processor.query(this);
 
-  if (typeof this._handler == 'function') {
-    this._handler(query, callback);
-  } else {
-    return query;
-  }
+  // if (typeof this._handler == 'function') {
+  //   this._handler(query, callback);
+  // } else {
+  //   return query;
+  // }
 
+  var result = await db(query);
+  return result;
 };
 
 QueryBuilder.prototype.set = function (object) {
