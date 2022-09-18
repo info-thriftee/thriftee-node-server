@@ -9,26 +9,26 @@ const BaseController = require('./base.controller');
 */
 
 export const getBid = async (uuid) => {
-  let res = qb.select().where({uuid: uuid}).call();
+  let res = await qb.select().where({uuid: uuid}).call();
   return res ? res[0] : null;
 }
 export const save = async (bid) => {
-  let res = qb.insert().set(bid).call();
+  let res = await qb.insert().set(bid).call();
   return res;
 }
 
 export const update = async () => {
-  let res = qb.update().set(bid).call();
+  let res = await qb.update().set(bid).call();
   return res;
 }
 
 export const remove = async (uuid) => {
-  let res = qb.delete().where({uuid: uuid}).call();
+  let res = await qb.delete().where({uuid: uuid}).call();
   return res;
 }
 
 export const getHighestBid = async (bidding) => {
-  let res = qb.select()
+  let res = await qb.select()
     .where({bidding: bidding})
     .order({amount: "DESC"})
     .call();
@@ -37,15 +37,15 @@ export const getHighestBid = async (bidding) => {
 }
 
 export const getTotalBids = async (bidding) => {
-  let res = qb.count()
+  let res = await qb.count()
     .where({bidding: bidding})
     .call();
-    
+
   return res ? res[0].count : null;
 }
 
 export const getAllBidsOfCustomer = async (customer) => {
-  let res = qb.select()
+  let res = await qb.select()
     .fields(['bids.*'])
     .leftJoin(['biddings', 'bids.bidding', 'biddings.uuid'])
     .where({customer: customer})
@@ -83,5 +83,20 @@ export const getAllBidsOfCustomer = async (customer) => {
 }
 
 export const getBidsOfProduct = async (product) => {
+  let res = await qb.select()
+    .join(['biddings', 'bids.bidding', 'biddings.uuid'])
+    .where({product: product})
+    .call();
 
+  return res;
+}
+
+export const getHighestBidOfProduct = async (product) => {
+  let res = await qb.select()
+    .join(['biddings', 'bids.bidding', 'biddings.uuid'])
+    .where({product: product})
+    .order({amount: "DESC"})
+    .call();
+
+  return res ? res[0] : null;
 }
