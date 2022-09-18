@@ -97,10 +97,7 @@ module.exports = initApi = (app) => {
   router.get("/bidding/ending", bidding.getEndingBiddings);
   router.post("/bidding/store/active", bidding.getActiveBiddingByStore);
   router.get("/bidding/specific_data", bidding.getSpecificBiddingData);
-  router.post(
-    "/bidding/store/upcoming",
-    bidding.getUpcomingBiddingBiddingsByStore
-  );
+  router.post("/bidding/store/upcoming", bidding.getUpcomingBiddingsByStore);
   router.post("/bidding/store/on_going", bidding.getOnGoingBiddingsByStore);
   router.post("/bidding/store/products/sold", bidding.getStoreSoldProducts);
   //Customer Routes
