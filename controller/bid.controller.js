@@ -1,6 +1,7 @@
 const Querybuilder = require('../querybuilder/qb');
 const tableName = "bids";
 const qb = new Querybuilder('mysql').table(tableName);
+const BaseController = require('./base.controller');
 
 
 /**
@@ -39,7 +40,8 @@ export const getTotalBids = async (bidding) => {
   let res = qb.count()
     .where({bidding: bidding})
     .call();
-    return res ? res[0].count : null;
+    
+  return res ? res[0].count : null;
 }
 
 export const getAllBidsOfCustomer = async (customer) => {
@@ -51,9 +53,35 @@ export const getAllBidsOfCustomer = async (customer) => {
     .group(["bidding"])
     .call();
 
-    let bids = [];
+  let bids = [];
+  
+  for(let item of res) {
+
+    let bidding = await BaseController.getItem('biddings', {uuid: item.bidding});
+    let product = await BaseController.getItem('products', {uuid: bidding.product});
+
+    let image = await BaseController.getItem('productimages', {product: product.uuid});
+    product.image = image.path;
     
-    for(bid of res) {
-      let bidding = Bidd
+    let store = await BaseController.getItem('stores', {uuid: product.store});
+
+    let highestBid = await getHighestBid();
+
+    let arr_item = {
+      bidding: bidding,
+      product: product,
+      store: store,
+      bids: item,
+      highest: highestBid
     }
+
+    bids = [...bids, arr_item];
+    
+  }
+
+  return bids;
+}
+
+export const getBidsOfProduct = async (product) => {
+
 }

@@ -36,6 +36,8 @@ var ToMysql = {
       + this._parseFields()
       + ' FROM '
       + this._parseTable()
+      + this._parseJoin()
+      + this._parseRightJoin()
       + this._parseLeftJoin()
       + this._parseWhere()
       + this._parseOrder()
@@ -47,6 +49,8 @@ var ToMysql = {
     return 'SELECT COUNT(*) AS `count` '
       + ' FROM '
       + this._parseTable()
+      + this._parseJoin()
+      + this._parseRightJoin()
       + this._parseLeftJoin()
       + this._parseWhere();
   },
@@ -111,9 +115,25 @@ var ToMysql = {
     return '';
   },
 
+  _parseJoin: function () {
+    if (this.qb._join instanceof Array && this.qb._join.length === 3) {
+      return ' JOIN ' + this.qb._join[0] + ' ON ' + this.qb._join[1] + ' = ' + this.qb._join[2] + ' ';
+    }
+
+    return '';
+  },
+
   _parseLeftJoin: function () {
     if (this.qb._leftJoin instanceof Array && this.qb._leftJoin.length === 3) {
       return ' LEFT JOIN ' + this.qb._leftJoin[0] + ' ON ' + this.qb._leftJoin[1] + ' = ' + this.qb._leftJoin[2] + ' ';
+    }
+
+    return '';
+  },
+
+  _parseRightJoin: function () {
+    if (this.qb._rightJoin instanceof Array && this.qb._rightJoin.length === 3) {
+      return ' RIGHT JOIN ' + this.qb._rightJoin[0] + ' ON ' + this.qb._rightJoin[1] + ' = ' + this.qb._rightJoin[2] + ' ';
     }
 
     return '';

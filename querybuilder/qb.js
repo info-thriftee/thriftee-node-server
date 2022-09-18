@@ -20,6 +20,8 @@ const QueryBuilder = function (methodName) {
   this._offset = 0;
   this._handler = null;
   this._set = {};
+  this._join = [];
+  this._rightJoin = [];
   this._leftJoin = [];
 
   this.processor = null;
@@ -136,9 +138,24 @@ QueryBuilder.prototype.order = function (order) {
   return this;
 };
 
-QueryBuilder.prototype.leftJoin = function (join) {
+QueryBuilder.prototype.join = function (join) {
 
-  this._leftJoin = join;
+  this._join = join;
+
+  return this;
+};
+
+QueryBuilder.prototype.rightJoin = function (rightJoin) {
+
+  this._rightJoin = rightJoin;
+
+  return this;
+};
+
+
+QueryBuilder.prototype.leftJoin = function (leftJoin) {
+
+  this._leftJoin = leftJoin;
 
   return this;
 };
