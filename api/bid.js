@@ -6,8 +6,11 @@ const uuidV4 = require('uuid').v4;
 
 const BidController = require('../controller/bid.controller');
 const BiddingController = require('../controller/bidding.controller');
+const Router = require('../routes/Router');
 
 module.exports = initBid = (app) => {
+
+  const router = new Router(app);
 
   //Adding 
   app.post(baseUri + '/add', async (request, res) => {

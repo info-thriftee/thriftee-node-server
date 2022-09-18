@@ -1,13 +1,10 @@
-const Querybuilder = require('../querybuilder/qb');
-const tableName = "biddings";
-const qb = new Querybuilder('mysql').table(tableName);
+const Controller = require("./Controller");
 
+module.exports = class ProductController extends Controller {
 
-/**
- * Functions
-*/
+  constructor() {
+    super('products');
+  }
 
-export const getProduct = (uuid) => {
-  let res = qb.select().where({uuid: uuid}).call();
-  return res ? res[0] : null;
+  
 }

@@ -16,7 +16,7 @@ const server = http.createServer(app);
 
 const port = 8080;
 
-const initRoutes = require('./api/routes');
+const initApi = require('./routes/api');
 const initEvents = require('./events/events');
 const startJobs = require('./job/job');
 
@@ -79,7 +79,7 @@ server.listen(port, () => {
   console.log("Server is running in http://localhost:" + port);
 
   //Init Cron Jobs
-  startJobs()
+  //startJobs()
 })
 
 // app.listen(port, () => {
@@ -91,4 +91,7 @@ app.get('/', (req, res) => {
   res.json("Server is running..");
 })
 
-initRoutes(app)
+// const apiRouter = express.Router();
+
+initApi(app);
+//app.use("/api", apiRouter);
