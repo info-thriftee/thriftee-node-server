@@ -12,6 +12,11 @@ export const getItem = (tableName, uuid) => {
   return res ? res[0] : null;
 }
 
+export const checkItem = (tableName, condition) => {
+  let res = qb.select().table(tableName).where(condition).call();
+  return res ? true : false;
+}
+
 export const saveItem = (tableName, data) => {
   let res = qb.insert().table(tableName).set(data).call();
   return res;
